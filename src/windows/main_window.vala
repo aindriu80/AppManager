@@ -614,27 +614,27 @@ namespace AppManager {
             var record = cell_box.get_data<InstallationRecord>("record");
             if (record == null) return;
 
-            // Shift+click launches the app directly
+            // Shift+click opens app settings
             var display = Gdk.Display.get_default();
             var seat = display.get_default_seat();
             var keyboard = seat.get_keyboard();
             if (keyboard != null) {
                 var mask = keyboard.get_modifier_state();
                 if (Gdk.ModifierType.SHIFT_MASK in mask) {
-                    // Animate the icon before launching
-                    var icon_overlay = cell_box.get_first_child();
-                    if (icon_overlay != null) {
-                        var icon_widget = icon_overlay.get_first_child();
-                        if (icon_widget != null) {
-                            UiUtils.spin_launch_icon(icon_widget);
-                        }
-                    }
-                    launch_app(record);
+                    show_detail_page(record);
                     return;
                 }
             }
 
-            show_detail_page(record);
+            // Normal click launches the app
+            var icon_overlay = cell_box.get_first_child();
+            if (icon_overlay != null) {
+                var icon_widget = icon_overlay.get_first_child();
+                if (icon_widget != null) {
+                    UiUtils.spin_launch_icon(icon_widget);
+                }
+            }
+            launch_app(record);
         }
 
         private void launch_app(InstallationRecord record) {
@@ -931,7 +931,7 @@ namespace AppManager {
                 apps_title_label.set_halign(Gtk.Align.START);
                 title_column.append(apps_title_label);
 
-                var launch_hint_label = new Gtk.Label(_("Shift+click to launch"));
+                var launch_hint_label = new Gtk.Label(_("Shift+click for app settings"));
                 launch_hint_label.add_css_class("dim-label");
                 launch_hint_label.add_css_class("caption");
                 launch_hint_label.set_halign(Gtk.Align.START);

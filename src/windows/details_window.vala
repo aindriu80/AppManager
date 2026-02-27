@@ -118,42 +118,42 @@ namespace AppManager {
             header_box.set_margin_top(24);
             header_box.set_margin_bottom(12);
             
-            // App icon
+            // App icon (clickable to launch)
             header_icon = null;
             if (record.icon_path != null && record.icon_path.strip() != "") {
                 var icon_image = UiUtils.load_app_icon(record.icon_path);
                 if (icon_image != null) {
                     icon_image.set_pixel_size(128);
-                    header_box.append(icon_image);
                     header_icon = icon_image;
+
+                    var icon_button = new Gtk.Button();
+                    icon_button.set_child(icon_image);
+                    icon_button.add_css_class("flat");
+                    icon_button.set_halign(Gtk.Align.CENTER);
+                    icon_button.set_cursor(new Gdk.Cursor.from_name("pointer", null));
+                    icon_button.set_tooltip_text(_("Launch Application"));
+                    icon_button.clicked.connect(() => {
+                        try {
+                            var app_info = new DesktopAppInfo.from_filename(record.desktop_file);
+                            if (app_info != null) {
+                                UiUtils.spin_launch_icon(icon_image);
+                                app_info.launch(null, null);
+                            }
+                        } catch (Error e) {
+                            warning("Failed to launch %s: %s", record.name, e.message);
+                        }
+                    });
+                    header_box.append(icon_button);
                 }
             }
             
-            // App name (clickable to launch)
+            // App name
             var name_label = new Gtk.Label(record.name);
             name_label.add_css_class("title-1");
             name_label.set_wrap(true);
             name_label.set_wrap_mode(Pango.WrapMode.WORD_CHAR);
             name_label.set_justify(Gtk.Justification.CENTER);
-
-            var name_button = new Gtk.Button();
-            name_button.set_child(name_label);
-            name_button.add_css_class("flat");
-            name_button.set_cursor(new Gdk.Cursor.from_name("pointer", null));
-            name_button.clicked.connect(() => {
-                try {
-                    var app_info = new DesktopAppInfo.from_filename(record.desktop_file);
-                    if (app_info != null) {
-                        if (header_icon != null) {
-                            UiUtils.spin_launch_icon(header_icon);
-                        }
-                        app_info.launch(null, null);
-                    }
-                } catch (Error e) {
-                    warning("Failed to launch %s: %s", record.name, e.message);
-                }
-            });
-            header_box.append(name_button);
+            header_box.append(name_label);
             
             // App version
             var version_label = new Gtk.Label(record.version ?? _("Version unknown"));

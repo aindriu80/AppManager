@@ -79,6 +79,7 @@ pacman -Syu --noconfirm \
     libgee \
     libsoup3 \
     desktop-file-utils \
+    squashfs-tools \
     wget \
     xorg-server-xvfb \
     zsync
@@ -102,7 +103,7 @@ rm -rf build-anyimage
 meson setup build-anyimage --prefix=/usr \
     -Dbundle_dwarfs=true \
     -Dbundle_zsync=true \
-    -Dbundle_unsquashfs=true
+    -Dbundle_unsquashfs=false
 meson compile -C build-anyimage
 meson install -C build-anyimage
 
@@ -150,7 +151,7 @@ echo "---------------------------------------------------------------"
 # app invokes them as child processes, not via dynamic linking.
 #
 # Additional notes:
-#   - unsquashfs is built by meson and installed to /usr/bin/unsquashfs
+#   - unsquashfs is provided by the squashfs-tools Arch package (installed via pacman)
 #   - /usr/share/vala is needed for Vala runtime data (may be required by some Vala apps)
 
 "$QS" \

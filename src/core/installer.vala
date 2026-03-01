@@ -33,8 +33,33 @@ namespace AppManager.Core {
         }
 
         public InstallationRecord reinstall(string file_path, InstallationRecord old_record, InstallMode mode) throws Error {
+            // Validate new AppImage before touching the old installation.
+            // Uses the same desktop/icon extraction that install does — if the
+            // new package is corrupted or badly packed, we bail out here and
+            // the currently installed version stays untouched.
+            validate_appimage(file_path);
+
             uninstall(old_record);
             return install_sync(file_path, mode, old_record);
+        }
+
+        /**
+         * Pre-flight validation: extracts metadata, desktop entry and icon
+         * from the AppImage — the same checks install_sync/finalize performs.
+         * Throws on any problem so the caller can abort before uninstalling
+         * the old version.
+         */
+        private void validate_appimage(string file_path) throws Error {
+            var file = File.new_for_path(file_path);
+            var metadata = new AppImageMetadata(file);
+
+            var temp_dir = Utils.FileUtils.create_temp_dir("appmgr-validate-");
+            try {
+                AppImageAssets.extract_desktop_entry(metadata.path, temp_dir);
+                AppImageAssets.extract_icon(metadata.path, temp_dir);
+            } finally {
+                Utils.FileUtils.remove_dir_recursive(temp_dir);
+            }
         }
 
         private InstallationRecord install_sync(string file_path, InstallMode override_mode, InstallationRecord? old_record) throws Error {

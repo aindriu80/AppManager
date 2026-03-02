@@ -121,8 +121,8 @@ namespace AppManager {
             
             var header_box = new Gtk.Box(Gtk.Orientation.HORIZONTAL, 16);
             header_box.set_halign(Gtk.Align.START);
-            header_box.set_margin_top(12); // Top padding above icon/name container
-            header_box.set_margin_bottom(12);
+            header_box.set_margin_top(24); // Top padding above icon/name container
+            header_box.set_margin_bottom(24);
             header_box.set_margin_start(12);
             header_box.set_size_request(-1, 128); // Fixed height matching icon size
             

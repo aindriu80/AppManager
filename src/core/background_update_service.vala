@@ -257,7 +257,10 @@ X-XDP-Autostart=com.github.AppManager
             staged_updates.save();
 
             if (updates_available > 0) {
-                send_updates_notification(updates_available, app_names);
+                send_notification(
+                    _("App updates available"),
+                    _("%d app update(s) available").printf(updates_available)
+                );
             }
 
             log_debug("background update: probe finished (updates_available=%d)".printf(updates_available));
@@ -304,20 +307,23 @@ X-XDP-Autostart=com.github.AppManager
                 staged_updates.save();
             }
 
+            if (failed > 0) {
+                send_notification(
+                    _("App updates failed"),
+                    _("%d app update(s) failed").printf(failed)
+                );
+            }
+
             log_debug("background update: finished (updated=%d skipped=%d failed=%d)".printf(updated, skipped, failed));
         }
 
         /**
-         * Sends a desktop notification about available updates via D-Bus.
+         * Sends a desktop notification via D-Bus.
          * Uses org.freedesktop.Notifications directly since background daemon
          * may not have a full GLib.Application context.
          * The notification includes a default action to open AppManager.
          */
-        private void send_updates_notification(int count, Gee.ArrayList<string> app_names) {
-            string title = _("App updates available");
-            // Always show aggregate count
-            string body = _("%d app update(s) available").printf(count);
-
+        private void send_notification(string title, string body) {
             try {
                 if (dbus_connection == null) {
                     dbus_connection = Bus.get_sync(BusType.SESSION);
@@ -351,9 +357,8 @@ X-XDP-Autostart=com.github.AppManager
                     null
                 );
 
-                // Store notification ID for action handling
                 result.get("(u)", out notification_id);
-                log_debug("background update: sent notification %u for %d update(s)".printf(notification_id, count));
+                log_debug("background update: sent notification %u: %s".printf(notification_id, title));
                 
                 // Set up action handler after successful notification
                 setup_notification_action_handler();
@@ -407,14 +412,12 @@ X-XDP-Autostart=com.github.AppManager
 
             if (staged_updates.has_updates()) {
                 int count = staged_updates.count();
-                var app_names = new Gee.ArrayList<string>();
-                
-                foreach (var update in staged_updates.list()) {
-                    app_names.add(update.record_name);
-                }
 
                 log_debug("background daemon: found %d staged update(s) on login, sending notification".printf(count));
-                send_updates_notification(count, app_names);
+                send_notification(
+                    _("App updates available"),
+                    _("%d app update(s) available").printf(count)
+                );
             } else {
                 log_debug("background daemon: no staged updates found on login");
             }

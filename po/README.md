@@ -9,27 +9,27 @@
 
 | Language | Code | Status |
 | -------- | ---- | ------ |
-| Arabic | ar | 94.7% (252/266) |
-| German | de | 94.7% (252/266) |
-| Greek | el | 94.7% (252/266) |
-| Spanish | es | 94.7% (252/266) |
-| Estonian | et | 94.7% (252/266) |
-| Finnish | fi | 94.7% (252/266) |
-| French | fr | 94.7% (252/266) |
-| Italian | it | 94.7% (252/266) |
-| Japanese | ja | 94.7% (252/266) |
-| Kazakh | kk | 94.7% (252/266) |
-| Korean | ko | 94.7% (252/266) |
-| Lithuanian | lt | 94.7% (252/266) |
-| Latvian | lv | 94.7% (252/266) |
-| Norwegian Bokmål | nb | 94.7% (252/266) |
-| Dutch | nl | 94.7% (252/266) |
-| Polish | pl | 94.7% (252/266) |
-| Portuguese (Brazil) | pt_BR | 94.7% (252/266) |
-| Swedish | sv | 94.7% (252/266) |
-| Ukrainian | uk | 94.7% (252/266) |
-| Vietnamese | vi | 94.7% (252/266) |
-| Chinese (Simplified) | zh_CN | 94.7% (252/266) |
+| Arabic | ar | 89.9% (249/277) |
+| German | de | 89.9% (249/277) |
+| Greek | el | 89.9% (249/277) |
+| Spanish | es | 89.9% (249/277) |
+| Estonian | et | 89.9% (249/277) |
+| Finnish | fi | 89.9% (249/277) |
+| French | fr | 94.6% (262/277) |
+| Italian | it | 89.9% (249/277) |
+| Japanese | ja | 89.9% (249/277) |
+| Kazakh | kk | 89.9% (249/277) |
+| Korean | ko | 89.9% (249/277) |
+| Lithuanian | lt | 89.9% (249/277) |
+| Latvian | lv | 89.9% (249/277) |
+| Norwegian Bokmål | nb | 89.9% (249/277) |
+| Dutch | nl | 89.9% (249/277) |
+| Polish | pl | 89.9% (249/277) |
+| Portuguese (Brazil) | pt_BR | 89.9% (249/277) |
+| Swedish | sv | 89.9% (249/277) |
+| Ukrainian | uk | 89.9% (249/277) |
+| Vietnamese | vi | 89.9% (249/277) |
+| Chinese (Simplified) | zh_CN | 89.9% (249/277) |
 
 ## Note
 
